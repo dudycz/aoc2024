@@ -1,6 +1,20 @@
 mod day01;
+mod day02;
+
+macro_rules! solve_and_print {
+    ($($day:expr, $file:expr, $solve_fn:expr);*) => {
+        $(
+            match $solve_fn($file) {
+                Ok(result) => println!("{} result: {:?}", $day, result),
+                Err(e) => eprintln!("Failed to solve {}: {:?}", $day, e),
+            }
+        )*
+    };
+}
 
 fn main() {
-    let result01 = day01::solve("inputs/day01.txt");
-    println!("Day 01 result: {:?}", result01);
+    solve_and_print!(
+        "Day 01", "inputs/day01.txt", day01::solve;
+        "Day 02", "inputs/day02.txt", day02::solve
+    );
 }
