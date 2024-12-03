@@ -2,8 +2,6 @@ use std::fs::File;
 use std::io::{self, BufRead};
 use anyhow::Result;
 
-
-// Create type definition for vector containing another vector of u32
 type Level = Vec<u32>;
 type Reports = Vec<Level>;
 
