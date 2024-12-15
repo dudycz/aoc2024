@@ -19,10 +19,10 @@ fn load_grid_from_file(filename: &str) -> io::Result<Vec<Vec<char>>> {
 
 fn find_word(grid: &[Vec<char>], word: &str) -> usize {
     let directions = [
-        (0, 1),   // Right
-        (1, 0),   // Down
-        (1, 1),   // Diagonal down-right
-        (1, -1),  // Diagonal down-left
+        (0, 1),  // Right
+        (1, 0),  // Down
+        (1, 1),  // Diagonal down-right
+        (1, -1), // Diagonal down-left
     ];
 
     let rows = grid.len();
@@ -38,7 +38,11 @@ fn find_word(grid: &[Vec<char>], word: &str) -> usize {
                 if (0..word_len).all(|i| {
                     let x = r as isize + dr * i as isize;
                     let y = c as isize + dc * i as isize;
-                    x >= 0 && x < rows as isize && y >= 0 && y < cols as isize && grid[x as usize][y as usize] == word_chars[i]
+                    x >= 0
+                        && x < rows as isize
+                        && y >= 0
+                        && y < cols as isize
+                        && grid[x as usize][y as usize] == word_chars[i]
                 }) {
                     count += 1;
                 }
@@ -84,7 +88,7 @@ pub fn solve(file_path: &str) -> io::Result<(usize, usize)> {
     let xmas_count = find_word(&grid, "XMAS");
     let samx_count = find_word(&grid, "SAMX");
     let mas = find_x_shaped_mas(&grid);
-    Ok((xmas_count+samx_count, mas))
+    Ok((xmas_count + samx_count, mas))
 }
 
 #[cfg(test)]
@@ -97,7 +101,7 @@ mod tests {
             vec!['x', 'm', 'a', 's', 'a', 'b'],
             vec!['a', 'b', 'c', 'd', 'e', 'f'],
             vec!['.', 'x', 'm', 'a', 's', 'a'],
-            vec!['x', '.', 'm', 'a', 's', 'a'],            
+            vec!['x', '.', 'm', 'a', 's', 'a'],
         ];
         let word = "xmas";
         let result = find_word(&grid, word);
@@ -147,7 +151,7 @@ mod tests {
         let result = find_word(&grid, word);
         assert_eq!(result, 1);
     }
-    
+
     #[test]
     fn test_find_word() {
         let grid = vec![

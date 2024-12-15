@@ -1,6 +1,6 @@
+use anyhow::Result;
 use std::fs::File;
 use std::io::{self, BufRead};
-use anyhow::Result;
 
 type Level = Vec<u32>;
 type Reports = Vec<Level>;
@@ -74,8 +74,8 @@ fn count_safe_reports(reports: &Reports) -> (i32, i32) {
 
 pub fn solve(file_path: &str) -> Result<(i32, i32)> {
     let reports = read_reports_from_file(file_path)?;
-    let (safe, toleranced)  = count_safe_reports(&reports);
-    Ok((safe, safe+toleranced))
+    let (safe, toleranced) = count_safe_reports(&reports);
+    Ok((safe, safe + toleranced))
 }
 
 #[cfg(test)]
@@ -99,7 +99,7 @@ mod tests {
         assert!(!can_be_safe_by_removing_one(&[1, 2, 7, 8, 9])); // not safe
         assert!(!can_be_safe_by_removing_one(&[9, 7, 6, 2, 1])); // not safe
         assert!(can_be_safe_by_removing_one(&[1, 3, 2, 4, 5])); // becomes safe by removing 2
-        assert!(can_be_safe_by_removing_one(&[8, 6, 4, 4, 1])); // can be safe by removing 4        
+        assert!(can_be_safe_by_removing_one(&[8, 6, 4, 4, 1])); // can be safe by removing 4
     }
 
     #[test]

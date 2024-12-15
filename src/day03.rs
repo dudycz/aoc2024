@@ -1,8 +1,7 @@
-use std::fs::File;
-use std::io::Read;
 use anyhow::Result;
 use regex::Regex;
-
+use std::fs::File;
+use std::io::Read;
 
 fn read_file(file_path: &str) -> Result<String> {
     let mut file = File::open(file_path)?;
@@ -36,9 +35,8 @@ fn parse_and_execute(program: &str) -> (i64, i64) {
     (uncorrupted_result, enhanced_result)
 }
 
-
 pub fn solve(file_path: &str) -> Result<(i64, i64)> {
-    let program = read_file(file_path)?;    
+    let program = read_file(file_path)?;
     Ok(parse_and_execute(&program))
 }
 
@@ -48,7 +46,9 @@ mod tests {
 
     #[test]
     fn test_execute() {
-        let program = String::from("xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))");
-        assert_eq!(parse_and_execute(&program), (161,48));
-    }    
+        let program = String::from(
+            "xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))",
+        );
+        assert_eq!(parse_and_execute(&program), (161, 48));
+    }
 }

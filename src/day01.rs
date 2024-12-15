@@ -1,6 +1,6 @@
+use anyhow::{anyhow, Result};
 use std::fs::File;
 use std::io::{self, BufRead};
-use anyhow::{Result, anyhow};
 
 struct Columns {
     col1: Vec<i32>,
@@ -17,8 +17,14 @@ fn read_columns_from_file(file_path: &str) -> Result<Columns> {
     for line in reader.lines() {
         let line = line?;
         let mut numbers = line.split_whitespace();
-        let num1: i32 = numbers.next().ok_or_else(|| anyhow!("Invalid line format"))?.parse()?;
-        let num2: i32 = numbers.next().ok_or_else(|| anyhow!("Invalid line format"))?.parse()?;
+        let num1: i32 = numbers
+            .next()
+            .ok_or_else(|| anyhow!("Invalid line format"))?
+            .parse()?;
+        let num2: i32 = numbers
+            .next()
+            .ok_or_else(|| anyhow!("Invalid line format"))?
+            .parse()?;
         col1.push(num1);
         col2.push(num2);
     }
@@ -33,11 +39,14 @@ fn calculate_metrics(columns: &Columns) -> (i32, i32) {
     col1.sort_unstable();
     col2.sort_unstable();
 
-    let distance: i32 = col1.iter().zip(col2.iter())
+    let distance: i32 = col1
+        .iter()
+        .zip(col2.iter())
         .map(|(num1, num2)| (num1 - num2).abs())
         .sum();
 
-    let similarity_score: i32 = col1.iter()
+    let similarity_score: i32 = col1
+        .iter()
         .map(|&num1| num1 * col2.iter().filter(|&&num2| num2 == num1).count() as i32)
         .sum();
 
