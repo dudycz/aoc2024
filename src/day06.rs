@@ -1,3 +1,4 @@
+use rayon::prelude::*;
 use rustc_hash::{FxHashMap, FxHashSet};
 use std::fs::File;
 use std::io::{self, BufRead};
@@ -91,7 +92,7 @@ fn part2(map: &Vec<Vec<char>>, path: &Vec<(i32, i32, usize)>) -> u32 {
         .map(|(p, c)| (p, c[0]))
         .collect();
 
-    path.iter()
+    path.par_iter()
         .enumerate()
         .filter(|(id, (x, y, _dir))| {
             if *id == 0 {
