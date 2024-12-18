@@ -5,11 +5,11 @@ use std::collections::{HashMap, HashSet};
 #[derive(Hash, Eq, PartialEq, Debug, Clone)]
 struct Pos(usize, usize);
 
-fn parse_map(input: &str) -> Vec<Vec<char>> {
-    fs::read_to_string(input).unwrap()
-        .lines()
-        .map(|line| line.chars().collect())
-        .collect()
+fn parse_map(file_path: &str) -> Vec<Vec<char>> {
+    let content = fs::read_to_string(file_path).expect("Failed to read file");
+    content.lines()
+        .map(|line| line.chars().collect::<Vec<char>>())
+        .collect::<Vec<Vec<char>>>()
 }
 
 fn calculate_antinodes(antennas: &[Pos], height: usize, width: usize) -> HashSet<Pos> {
@@ -19,14 +19,15 @@ fn calculate_antinodes(antennas: &[Pos], height: usize, width: usize) -> HashSet
             let dx = pos2.0 as isize - pos1.0 as isize;
             let dy = pos2.1 as isize - pos1.1 as isize;
 
-            let new_pos1 = Pos((pos1.0 as isize - dx) as usize, (pos1.1 as isize - dy) as usize);
-            let new_pos2 = Pos((pos2.0 as isize + dx) as usize, (pos2.1 as isize + dy) as usize);
+            for k in [-1, 1].iter() {
+                let new_pos = Pos(
+                    (pos1.0 as isize + k * dx) as usize,
+                    (pos1.1 as isize + k * dy) as usize,
+                );
 
-            if new_pos1.0 < width && new_pos1.1 < height {
-                antinodes.insert(new_pos1);
-            }
-            if new_pos2.0 < width && new_pos2.1 < height {
-                antinodes.insert(new_pos2);
+                if new_pos.0 < width && new_pos.1 < height {
+                    antinodes.insert(new_pos);
+                }
             }
         }
     }
