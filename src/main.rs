@@ -6,6 +6,7 @@ mod day05;
 mod day06;
 mod day07;
 mod day08;
+mod day09;
 
 macro_rules! solve_and_print {
     ($($day:expr, $file:expr, $solve_fn:expr);*) => {
@@ -27,6 +28,7 @@ fn main() {
         "Day 05", "inputs/day05.txt", day05::solve;
         "Day 06", "inputs/day06.txt", day06::solve;
         "Day 07", "inputs/day07.txt", day07::solve;
-        "Day 08", "inputs/day08.txt", day08::solve
+        "Day 08", "inputs/day08.txt", day08::solve;
+        "Day 09", "inputs/day09.txt", day09::solve
     );
 }

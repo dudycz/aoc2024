@@ -82,8 +82,6 @@ pub fn solve(input: &str) -> io::Result<(u64, u64)> {
 
 #[cfg(test)]
 mod tests {
-    use std::ops;
-
     use super::*;
 
     #[test]

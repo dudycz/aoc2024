@@ -1,13 +1,14 @@
-use std::io;
-use std::fs;
 use std::collections::{HashMap, HashSet};
+use std::fs;
+use std::io;
 
 #[derive(Hash, Eq, PartialEq, Debug, Clone)]
 struct Pos(usize, usize);
 
 fn parse_map(file_path: &str) -> Vec<Vec<char>> {
     let content = fs::read_to_string(file_path).expect("Failed to read file");
-    content.lines()
+    content
+        .lines()
         .map(|line| line.chars().collect::<Vec<char>>())
         .collect::<Vec<Vec<char>>>()
 }
@@ -44,8 +45,14 @@ fn calculate_harmonical_antinodes(antennas: &[Pos], height: usize, width: usize)
 
             let mut k = 1;
             loop {
-                let new_pos1 = Pos((pos1.0 as isize - k * dx) as usize, (pos1.1 as isize - k * dy) as usize);
-                let new_pos2 = Pos((pos2.0 as isize + k * dx) as usize, (pos2.1 as isize + k * dy) as usize);
+                let new_pos1 = Pos(
+                    (pos1.0 as isize - k * dx) as usize,
+                    (pos1.1 as isize - k * dy) as usize,
+                );
+                let new_pos2 = Pos(
+                    (pos2.0 as isize + k * dx) as usize,
+                    (pos2.1 as isize + k * dy) as usize,
+                );
 
                 let mut added = false;
                 if new_pos1.0 < width && new_pos1.1 < height {
@@ -80,15 +87,20 @@ fn calc(map: &Vec<Vec<char>>) -> (u64, u64) {
         }
     }
 
-    let unique_positions = positions.values()
+    let unique_positions = positions
+        .values()
         .flat_map(|pos_list| calculate_antinodes(pos_list, height, width))
         .collect::<HashSet<_>>();
 
-    let harmonical_positions = positions.values()
+    let harmonical_positions = positions
+        .values()
         .flat_map(|pos_list| calculate_harmonical_antinodes(pos_list, height, width))
         .collect::<HashSet<_>>();
 
-    (unique_positions.len() as u64, harmonical_positions.len() as u64)
+    (
+        unique_positions.len() as u64,
+        harmonical_positions.len() as u64,
+    )
 }
 
 pub fn solve(input: &str) -> io::Result<(u64, u64)> {
